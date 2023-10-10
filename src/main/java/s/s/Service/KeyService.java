@@ -32,5 +32,18 @@ public class KeyService {
         }
     }
 
-    
+    public void deleteKeyRequest(Long id, KeyRequest keyRequest){
+        keyRepository.deleteById(id);
+    }
+
+    public void updateKeyRequest(Long id, KeyRequest keyRequest){
+        Optional<KeyRequest> optionalKeyRequest = keyRepository.findById(id);
+        if(optionalKeyRequest.isPresent()){
+            KeyRequest existingKeyRequest = optionalKeyRequest.get();
+            existingKeyRequest.setMessage(keyRequest.getMessage());
+            keyRepository.save(existingKeyRequest);
+        } else{
+            throw new EntityNotFoundException("Key request with id: " + id + " not found!");
+        }
+    }
 }
