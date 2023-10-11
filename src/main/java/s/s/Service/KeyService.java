@@ -31,18 +31,21 @@ public class KeyService {
         }
     }
 
-    public void deleteKeyRequest(Long id, KeyRequest keyRequest){
+    public void deleteKeyRequest(Long id){
         keyRepository.deleteById(id);
     }
 
-    public void updateKeyRequest(Long id, KeyRequest keyRequest){
+    public KeyRequest updateKeyRequest(Long id, KeyRequest keyRequest){
         Optional<KeyRequest> optionalKeyRequest = keyRepository.findById(id);
         if(optionalKeyRequest.isPresent()){
             KeyRequest existingKeyRequest = optionalKeyRequest.get();
             existingKeyRequest.setMessage(keyRequest.getMessage());
+            existingKeyRequest.setPhoneNumber(keyRequest.getPhoneNumber());
+            existingKeyRequest.setEmail(keyRequest.getEmail());
             keyRepository.save(existingKeyRequest);
         } else{
             throw new EntityNotFoundException("Key request with id: " + id + " not found!");
         }
+        return keyRequest;
     }
 }
