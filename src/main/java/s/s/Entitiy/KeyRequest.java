@@ -13,7 +13,7 @@ public class KeyRequest {
     private String message;
     private String phoneNumber;
     private String email;
-    private String test;
+    private String test2;
 
    public KeyRequest(){
    }
