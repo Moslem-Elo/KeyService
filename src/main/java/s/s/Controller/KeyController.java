@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import s.s.Entitiy.KeyRequest;
+import s.s.Service.EmailService;
 import s.s.Service.KeyService;
 
 @RestController
@@ -13,6 +14,7 @@ public class KeyController {
 
 @Autowired
     KeyService keyService;
+    EmailService emailService;
 
 @RequestMapping("/")
 public String sysOut(){
@@ -32,6 +34,7 @@ public KeyRequest getKeyRequestById(@PathVariable Long id){
 @PostMapping("/create")
 public ResponseEntity<KeyRequest> createQuestion(@RequestBody KeyRequest keyRequest) {
     KeyRequest createdKeyRequest = keyService.createKeyRequest(keyRequest);
+    emailService.sendEmail(keyRequest.getEmail(), "Betreff", "Nachrichtentext");
     return new ResponseEntity<>(createdKeyRequest, HttpStatus.CREATED);
 }
 

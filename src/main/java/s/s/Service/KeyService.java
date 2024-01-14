@@ -41,7 +41,8 @@ public class KeyService {
             KeyRequest existingKeyRequest = optionalKeyRequest.get();
             existingKeyRequest.setMessage(keyRequest.getMessage());
             existingKeyRequest.setPhoneNumber(keyRequest.getPhoneNumber());
-            existingKeyRequest.setEmail(keyRequest.getEmail());
+            existingKeyRequest.setFirstname(keyRequest.getFirstname());
+            existingKeyRequest.setLastname(keyRequest.getLastname());
             keyRepository.save(existingKeyRequest);
         } else{
             throw new EntityNotFoundException("Key request with id: " + id + " not found!");
