@@ -13,17 +13,15 @@ public class KeyRequest {
     private  String firstname;
     private String lastname;
     private String message;
-    private String laendervorwahl;
     private String phoneNumber;
     private String email;
 
    public KeyRequest(){
    }
 
-    public KeyRequest(String message, String phoneNumber, String firstname, String lastname, String leandervorwahl) {
+    public KeyRequest(String message, String phoneNumber, String firstname, String lastname) {
         this.message = message;
         this.phoneNumber = phoneNumber;
-        this.laendervorwahl = leandervorwahl;
         this.firstname = firstname;
         this.lastname = lastname;
     }
@@ -77,11 +75,5 @@ public class KeyRequest {
         this.lastname = lastname;
     }
 
-    public String getLaendervorwahl() {
-        return laendervorwahl;
-    }
 
-    public void setLaendervorwahl(String laendervorwahl) {
-        this.laendervorwahl = laendervorwahl;
-    }
 }

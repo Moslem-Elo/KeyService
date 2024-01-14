@@ -37,7 +37,7 @@ public KeyRequest getKeyRequestById(@PathVariable Long id){
 public ResponseEntity<KeyRequest> createQuestion(@RequestBody KeyRequest keyRequest) {
     KeyRequest createdKeyRequest = keyService.createKeyRequest(keyRequest);
     System.out.println("KeyRequest erstellt: " + createdKeyRequest.getEmail());
-    emailService.sendEmail(createdKeyRequest.getEmail(), "Ihre Anfragenummer " + createdKeyRequest.getId(), "Ihre Anfrage wird bearbeitet");
+    emailService.sendEmail(createdKeyRequest.getEmail(), "Ihre Auftragsnummer " + createdKeyRequest.getId(), "Ihre Anfrage wird bearbeitet");
     return new ResponseEntity<>(createdKeyRequest, HttpStatus.CREATED);
 }
 
