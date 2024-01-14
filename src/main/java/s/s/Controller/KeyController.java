@@ -14,6 +14,7 @@ public class KeyController {
 
 @Autowired
     KeyService keyService;
+@Autowired
     EmailService emailService;
 
 @RequestMapping("/")
@@ -31,10 +32,12 @@ public KeyRequest getKeyRequestById(@PathVariable Long id){
     return keyService.getKeyRequestById(id);
 }
 
+
 @PostMapping("/create")
 public ResponseEntity<KeyRequest> createQuestion(@RequestBody KeyRequest keyRequest) {
     KeyRequest createdKeyRequest = keyService.createKeyRequest(keyRequest);
-    emailService.sendEmail(keyRequest.getEmail(), "Betreff", "Nachrichtentext");
+    System.out.println("KeyRequest erstellt: " + createdKeyRequest.getEmail());
+    emailService.sendEmail(createdKeyRequest.getEmail(), "Ihre Anfragenummer " + createdKeyRequest.getId(), "Ihre Anfrage wird bearbeitet");
     return new ResponseEntity<>(createdKeyRequest, HttpStatus.CREATED);
 }
 
