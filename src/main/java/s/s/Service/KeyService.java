@@ -26,7 +26,7 @@ public class KeyService {
         Optional<KeyRequest> optionalKeyRequest = keyRepository.findById(id);
         if(optionalKeyRequest.isPresent()) {
             return optionalKeyRequest.get();
-        }else {
+        }else{
             throw new EntityNotFoundException("Key request with id: " + id + " not found!");
         }
     }
@@ -49,4 +49,5 @@ public class KeyService {
         }
         return keyRequest;
     }
+
 }
