@@ -38,6 +38,7 @@ public class KeyService {
     public KeyRequest updateKeyRequest(Long id, KeyRequest keyRequest){
         Optional<KeyRequest> optionalKeyRequest = keyRepository.findById(id);
         if(optionalKeyRequest.isPresent()){
+            
             KeyRequest existingKeyRequest = optionalKeyRequest.get();
             existingKeyRequest.setMessage(keyRequest.getMessage());
             existingKeyRequest.setPhoneNumber(keyRequest.getPhoneNumber());
