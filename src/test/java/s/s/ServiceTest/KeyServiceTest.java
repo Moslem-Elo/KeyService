@@ -10,6 +10,8 @@ import s.s.Repository.KeyRepository;
 import s.s.Service.KeyService;
 
 import jakarta.persistence.EntityNotFoundException;
+
+import java.io.IOException;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,7 @@ public class KeyServiceTest {
     }
 
     @Test
-    public void testUpdateKeyRequest() {
+    public void testUpdateKeyRequest() throws IOException {
         // Arrange
         Long keyRequestId = 1L;
         KeyRequest existingKeyRequest = new KeyRequest();

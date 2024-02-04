@@ -6,4 +6,5 @@ import s.s.Entitiy.KeyRequest;
 
 
 public interface KeyRepository extends CrudRepository<KeyRequest, Long> {
+
 }

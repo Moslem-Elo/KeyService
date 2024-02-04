@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class KeyRequest {
@@ -16,15 +17,19 @@ public class KeyRequest {
     private String phoneNumber;
     private String email;
 
+
    public KeyRequest(){
    }
 
-    public KeyRequest(String message, String phoneNumber, String firstname, String lastname) {
+    public KeyRequest(String message, String phoneNumber, String firstname, String lastname, String email) {
         this.message = message;
         this.phoneNumber = phoneNumber;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
+
     }
+
 
 
     public Long getId() {
@@ -74,6 +79,5 @@ public class KeyRequest {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-
 
 }
