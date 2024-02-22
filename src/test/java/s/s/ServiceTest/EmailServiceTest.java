@@ -1,17 +1,18 @@
-package s.s.ServiceTest;
+package s.s.Service;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.SimpleMailMessage;
+import org.mockito.MockitoAnnotations;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
-import s.s.Service.EmailService;
+import org.springframework.web.multipart.MultipartFile;
 
-@SpringBootTest
-class EmailServiceTests {
+public class EmailServiceTest {
 
     @Mock
     private JavaMailSender javaMailSender;
@@ -19,23 +20,40 @@ class EmailServiceTests {
     @InjectMocks
     private EmailService emailService;
 
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
-    void sendEmail_ShouldSendEmail() {
-        // Arrange
-        String to = "recipient@example.com";
-        String subject = "Test Subject";
-        String text = "Test Message";
+    public void testSendEmailSuccess() throws Exception {
+        // Mock MimeMessage
+        MimeMessage mockMessage = mock(MimeMessage.class);
+        when(javaMailSender.createMimeMessage()).thenReturn(mockMessage);
 
-        SimpleMailMessage expectedMessage = new SimpleMailMessage();
-        expectedMessage.setTo(to);
-        expectedMessage.setSubject(subject);
-        expectedMessage.setText(text);
+        // Mock MultipartFile
+        MultipartFile mockFile = mock(MultipartFile.class);
+        when(mockFile.isEmpty()).thenReturn(false);
+        when(mockFile.getOriginalFilename()).thenReturn("testbild.jpg");
 
-        // Act
-        emailService.sendEmail(to, subject, text);
+        // Aufruf der zu testenden Methode
+        boolean result = emailService.sendEmail("test@example.com", "Test Subject", "Test Message", mockFile);
 
-        // Assert
-        Mockito.verify(javaMailSender, Mockito.times(1)).send(expectedMessage);
+        // Verifikation
+        assertTrue(result);
+        verify(javaMailSender, times(1)).send(mockMessage);
+    }
+
+    @Test
+    public void testSendEmailFailure() throws Exception {
+        // MimeMessage werfen, um einen Fehler zu simulieren
+        when(javaMailSender.createMimeMessage()).thenThrow(new RuntimeException());
+
+        // Aufruf der zu testenden Methode
+        boolean result = emailService.sendEmail("fail@example.com", "Fail Subject", "Fail Message", null);
+
+        // Verifikation
+        assertFalse(result);
     }
 }
 

@@ -13,6 +13,8 @@ import s.s.Service.KeyService;
 
 import java.io.IOException;
 
+import static s.s.Entitiy.KeyRequest.keyStatus.AUFTRAG_ANGENOMMEN;
+
 @RestController
 public class KeyController {
 
@@ -54,6 +56,7 @@ public class KeyController {
             keyRequest.setFirstname(firstname);
             keyRequest.setLastname(lastname);
             keyRequest.setEmail(email);
+            keyRequest.setStatus(AUFTRAG_ANGENOMMEN);
             keyService.createKeyRequest(keyRequest);
             System.out.println("KeyRequest wurde erstellt");
             emailService.sendEmail(email, "Ihre Anfrage mit der mit der Auftragsnummer " + keyRequest.getId() + " ist eingegangen.", emailService.emailTextCustomer(keyRequest), bild);
