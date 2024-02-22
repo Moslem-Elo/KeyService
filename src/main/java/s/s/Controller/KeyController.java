@@ -12,6 +12,9 @@ import s.s.Service.EmailService;
 import s.s.Service.KeyService;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static s.s.Entitiy.KeyRequest.keyStatus.AUFTRAG_ANGENOMMEN;
 
@@ -66,6 +69,31 @@ public class KeyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/all-keystatus")
+    public ResponseEntity<List<String>> getKeyRequestStatuses() {
+        List<String> statuses = Arrays.stream(KeyRequest.keyStatus.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(statuses);
+    }
+
+    @PutMapping("/{id}/update-status")
+    public ResponseEntity<?> updateKeyStatus(@PathVariable Long id, @RequestParam("status") KeyRequest.keyStatus keyStatus) {
+        try {
+            boolean updateSuccessful = keyService.updateStatus(id, keyStatus);
+            if (updateSuccessful) {
+                return ResponseEntity.ok().build(); // Status 200 OK für erfolgreiche Aktualisierung
+            } else {
+                return ResponseEntity.notFound().build(); // Status 404 Not Found, wenn die KeyRequest nicht gefunden wurde
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Status konnte nicht aktualisiert werden: " + e.getMessage()); // Status 400 Bad Request für Fehler
+        }
+    }
+
+
 
     @PutMapping("/{id}/update")
     public KeyRequest updateKeyRequest(@PathVariable Long id, @RequestBody KeyRequest keyRequest) {
