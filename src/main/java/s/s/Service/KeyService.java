@@ -22,6 +22,16 @@ public class KeyService {
         return keyRepository.save(keyRequest);
     }
 
+    public boolean updateStatus(Long id, KeyRequest.keyStatus keyStatus) {
+        Optional<KeyRequest> keyRequestOptional = keyRepository.findById(id);
+        if (keyRequestOptional.isPresent()) {
+            KeyRequest keyRequest = keyRequestOptional.get();
+            keyRequest.setStatus(keyStatus);
+            keyRepository.save(keyRequest);
+            return true;
+        }
+        return false;
+    }
     @Transactional
     public KeyRequest updateKeyRequest(Long id, KeyRequest keyRequest) throws IOException {
         Optional<KeyRequest> optionalKeyRequest = keyRepository.findById(id);
@@ -31,6 +41,7 @@ public class KeyService {
             existingKeyRequest.setPhoneNumber(keyRequest.getPhoneNumber());
             existingKeyRequest.setFirstname(keyRequest.getFirstname());
             existingKeyRequest.setLastname(keyRequest.getLastname());
+            existingKeyRequest.setStatus(keyRequest.getStatus());
 
             return keyRepository.save(existingKeyRequest);
         } else {
