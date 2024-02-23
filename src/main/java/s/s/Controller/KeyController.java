@@ -79,10 +79,11 @@ public class KeyController {
     }
 
     @PutMapping("/{id}/update-status")
-    public ResponseEntity<?> updateKeyStatus(@PathVariable Long id, @RequestParam("status") KeyRequest.keyStatus keyStatus) {
+    public ResponseEntity<?> updateKeyStatus(@PathVariable Long id, @RequestParam("status") KeyRequest.keyStatus keyStatus, @RequestParam("email") String email ) {
         try {
             boolean updateSuccessful = keyService.updateStatus(id, keyStatus);
             if (updateSuccessful) {
+                emailService.sendEmail(email, "Statusaktualisierung", "ihr neuer status: " + "\"" +keyStatus + "\"", null);
                 return ResponseEntity.ok().build(); // Status 200 OK für erfolgreiche Aktualisierung
             } else {
                 return ResponseEntity.notFound().build(); // Status 404 Not Found, wenn die KeyRequest nicht gefunden wurde
