@@ -12,6 +12,7 @@ public class KeyRequest {
     private String message;
     private String phoneNumber;
     private String email;
+    private String test;
 
     @Enumerated(EnumType.STRING)
     private keyStatus status;
